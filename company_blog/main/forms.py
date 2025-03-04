@@ -16,7 +16,6 @@ class UpdateCategoryForm(FlaskForm):
     category=StringField('カテゴリ名',validators=[DataRequired()])
     submit=SubmitField('更新')
 
-    # よくわからないお
     def __init__(self,blog_category_id,*args,**kwargs):
         super(UpdateCategoryForm,self).__init__(*args,**kwargs)
         self.id=blog_category_id

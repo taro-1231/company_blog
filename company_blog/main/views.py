@@ -34,8 +34,6 @@ def category_maintenance():
 
 @main.route('/<int:blog_category_id>/blog_category',methods=['GET','POST'])
 @login_required
-# blog_category_idで何が便利でどこからなのかよくわからん
-# てかこれなに
 def blog_category(blog_category_id):
     if not current_user.is_administrator():
         abort(403)
@@ -70,7 +68,6 @@ def create_post():
     if form.validate_on_submit():
         
         # if form.picture.data:
-        #     # imgはデータベースに入れれないからこのように名前だけ
         #     pic=add_featured_image(form.picture.data)
         # else:
         #     pic=''

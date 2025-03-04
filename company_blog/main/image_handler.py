@@ -12,5 +12,5 @@ def add_featured_image(upload_image):
     image=Image.open(upload_image)
     image.thumbnail(image_size)
     image.save(filepath)
-    # これはデータベース行らしい
+    # これはデータベース行
     return image_filename

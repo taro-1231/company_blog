@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{%block content%}
+    <section id="user_delete_btn">
+        <div class="container py-3 my-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#delete_modal">
+                        削除
+                      </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="category_update">
+        <div class="container my-2">
+            <div class="row">
+                <div class="col-lg-4 mx-auto">
+                    <div class="card bg-success">
+                        <div class="card-body text-light">
+                            <h1>カテゴリ更新</h1>
+                            <p>ブログカテゴリ情報を更新してください</p>
+                            
+                            
+                            <form method="post">
+                                {{form.hidden_tag()}}
+                                <div class="mb-3">
+                                    <!-- macroのつかいかたよくわからんなあ -->
+                                    {{render_field(form.category,class="form-control form-control-lg",placeholder="カテゴリ名" )}}
+                                </div>
+                                {{form.submit(class="btn btn-outline-light w-100")}}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+        </div>
+    </section>
+
+    <!-- Modal -->
+<div class="modal fade" id="delete_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">削除確認</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>このカテゴリを削除しますか</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <!-- 後で考えてみるか -->
+          <form action="{{url_for('main.delete_category',blog_category_id=form.id)}}" method="post">
+            <input type="submit" class="btn btn-danger" value="削除">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {%endblock%}

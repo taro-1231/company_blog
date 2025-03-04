@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{%block content%}
+    <header id="header">
+        <div class="container bg-light my-3 py-3">
+            <div class="row">
+                <div class="col-lg-6 m-auto text-center">
+                    <h1>カテゴリ管理</h1>
+                </div>
+            </div>
+        </div>
+        
+    </header>
+
+    <selection id="user_resister_btn">
+        <div class="container my-3 py-3 bg-light">
+            <div class="row">
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                        カテゴリ追加
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+        
+    </selection>
+
+    <section id="user_list">
+        <div class="container my-3">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="card bg-light" >
+                        <div class="card-header">
+                            <h4 class="card-title">カテゴリ</h4>
+                        </div>
+                        <div class="table-responsive">
+                          
+                          <table class="table table-striped text-nowrap">
+                            <thead class="table-dark">
+                                <tr>
+                                  <th scope="col">ID</th>
+                                  <th scope="col">カテゴリ名</th>
+                                  <th scope="col">ブログ投稿数</th>
+                                  <th scope="col">変更</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- .itemによって何ができんだっけ -->
+                                 <!-- paginationにつかえるんだっけな -->
+                                {% for blog_category in blog_categories.items%}
+                                <tr>
+                                    <td>{{ blog_category.id }}</td>
+                                    <td>{{ blog_category.category | truncate(20)}}</td>
+                                    <td><a href="{{url_for('main.category_posts',blog_category_id=blog_category.id)}}">{{blog_category.count_post(blog_category.id)}}</a></td>
+                                    <td>
+                                        {%if current_user.is_administrator()%}
+                                        <a href="{{url_for('main.blog_category',blog_category_id=blog_category.id)}}" class="btn btn-secondary">変更</a>
+                                    {%endif%}
+                                    </td>
+                                  </tr>
+                                {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="my-2" aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+
+          <li {% if blog_categories.has_prev %}class="page-item"
+            {% else %} class="page-item disabled"{%endif%}>
+            <a class="page-link" href="
+            {% if blog_categories.has_prev %}{{ url_for('main.category_maintenance',page=blog_categories.prev_num) }} 
+            {% else %}#{% endif %}
+            ">前へ</a></li>
+            <!-- url_for('main.category_maintenance'}のmainはblueprint名,category_maintenanceはview関数 -->
+          
+          {% for page_num in blog_categories.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+            {% if page_num %}
+                {% if blog_categories.page == page_num %}
+                    <li class="page-item disabled"><a href="#" class="page-link">{{ page_num }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{{url_for('main.category_maintenance',page=page_num) }}">{{ page_num }}</a></li>
+                {% endif %}
+            {%else%}
+                <li class="page-item disabled"><a href="#" class="page-link">&hellip;</a></li>
+            {%endif%}
+          {%endfor%}
+
+          <li {% if blog_categories.has_next %}class="page-item"
+            {% else %}class="page-item disabled"{%endif%}>
+            <a class="page-link" href="
+            {% if blog_categories.has_next %}{{ url_for('main.category_maintenance',page=blog_categories.next_num)}}
+            {% else %}#{% endif %}">次へ</a></li>
+        </ul>
+      </nav>
+
+          <!-- Modal -->
+  <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">カテゴリ追加</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="POST">
+            {{form.hidden_tag()}}
+            <div class="modal-body">
+                <div class="form-group">
+                    <!-- これがBlogCategoryFormをインスタンス化させてformにいれたやつ
+                     これをおくって一つずつ追加 -->
+                     <!-- labelはBlogCategoryFormのcategoryの''に入れた名前 -->
+                    {{form.category.label(class='form-control')}}
+                    {{form.category(class='form-control')}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                {{form.submit(class="btn btn-warning")}}
+            </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+  {%endblock%}

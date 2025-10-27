@@ -11,7 +11,7 @@ basedir =os.path.abspath(os.path.dirname(__file__))
 
 # app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///'+ os.path.join(basedir,'data.sqlite')
 uri=os.environ.get('DATABASE_URL')
-# herokuで実行するとuriに入って、localだと入らない
+
 if uri:
     if uri.startswith('postgres://'):
         uri=uri.replace('postgres://','postgresql://',1)

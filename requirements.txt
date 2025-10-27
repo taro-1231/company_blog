@@ -15,8 +15,8 @@ markupSafe==2.1.1
 click==8.0.4
 requests==2.27.1
 
-# sqlalchemy==1.4.27  
-SQLAlchemy==1.4.52
+sqlalchemy==1.4.27  
+# SQLAlchemy==1.4.52
 
-# psycopg2-binary==2.9.9
-psycopg[binary]==3.2.12
+psycopg2-binary==2.9.9
+# psycopg[binary]==3.2.12

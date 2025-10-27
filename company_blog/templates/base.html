@@ -52,6 +52,10 @@
           <span class="navbar-text ms-3">
             {{current_user.username | truncate(15)}}
           </span>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'users.login' %}active{% endif %}" href="{{url_for('users.login')}}">ログイン</a>
+          </li>
           {%endif%}
         </ul>
       </div>

@@ -82,14 +82,15 @@ with app.app_context():
     except Exception as e:
         import traceback; print("COUNT FAILED:", e); traceback.print_exc()
 
+# --- 一時デバッグ（終わったら消す） ---
 import sqlalchemy as sa
 with app.app_context():
     insp = sa.inspect(db.engine)
     print("schemas:", insp.get_schema_names())
     print("tables(public):", insp.get_table_names(schema="public"))
-    for t in ["users", "blog_post", "blog_category", "inquiry"]:
-        try:
-            cols = [c["name"] for c in insp.get_columns(t, schema="public")]
-            print(f"columns {t}:", cols)
-        except Exception as e:
-            print(f"columns {t} FAILED:", e)
+    try:
+        cols = [c["name"] for c in insp.get_columns("blog_post", schema="public")]
+        print("columns blog_post:", cols)
+    except Exception as e:
+        print("columns blog_post FAILED:", e)
+# --- /デバッグ ---

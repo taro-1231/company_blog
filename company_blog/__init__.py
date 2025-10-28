@@ -11,7 +11,6 @@ basedir =os.path.abspath(os.path.dirname(__file__))
 
 # app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///'+ os.path.join(basedir,'data.sqlite')
 uri=os.environ.get('DATABASE_URL')
-print('aaaaaaaaaaaa')
 if uri:
     # Heroku 互換の古い形式なら正規化
     if uri.startswith('postgres://'):
@@ -20,13 +19,10 @@ if uri:
     if 'sslmode=' not in uri:
         uri = uri + ('?sslmode=require' if '?' not in uri else '&sslmode=require')
     app.config['SQLALCHEMY_DATABASE_URI'] = uri
-    print('e')
-    print(app.config['SQLALCHEMY_DATABASE_URI'])
 else:
     # ローカル開発用のフォールバック
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:ryota1231@localhost/postgres'
 
-print('eeeeeeeeeee')
 # if uri:
 #     if uri.startswith('postgres://'):
 #         uri=uri.replace('postgres://','postgresql://',1)

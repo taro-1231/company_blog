@@ -34,6 +34,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 # app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_pre_ping": True}
 db= SQLAlchemy(app)
 migrate = Migrate (app,db)
+print('bbbbbbbbbb')
+print(migrate)
 
 
 login_manager=LoginManager()

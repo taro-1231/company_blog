@@ -22,6 +22,8 @@ if uri:
 else:
     # ローカル開発用のフォールバック
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:ryota1231@localhost/postgres'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///migrate_tmp.db'
+
 
 # if uri:
 #     if uri.startswith('postgres://'):
@@ -34,8 +36,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 # app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_pre_ping": True}
 db= SQLAlchemy(app)
 migrate = Migrate (app,db)
-print('bbbbbbbbbb')
-print(migrate)
+# print('bbbbbbbbbb')
+# print(migrate)
 
 
 login_manager=LoginManager()

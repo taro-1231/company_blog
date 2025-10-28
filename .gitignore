@@ -8,3 +8,5 @@ venv/
 
 # Project specific
 # company_blog/static/featured_image/
+
+.env

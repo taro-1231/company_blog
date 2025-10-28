@@ -85,6 +85,11 @@ with app.app_context():
 import sqlalchemy as sa
 with app.app_context():
     insp = sa.inspect(db.engine)
-    print("==== DB DEBUG ====")
-    print("DB URL:", db.engine.url)
-    print("tables:", insp.get_table_names(schema="public") or insp.get_table_names())
+    print("schemas:", insp.get_schema_names())
+    print("tables(public):", insp.get_table_names(schema="public"))
+    for t in ["users", "blog_post", "blog_category", "inquiry"]:
+        try:
+            cols = [c["name"] for c in insp.get_columns(t, schema="public")]
+            print(f"columns {t}:", cols)
+        except Exception as e:
+            print(f"columns {t} FAILED:", e)

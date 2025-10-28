@@ -66,3 +66,5 @@ app.register_blueprint(main)
 app.register_blueprint(users)
 app.register_blueprint(error_pages)
 
+with app.app_context():
+    print("tables:", db.metadata.tables.keys())

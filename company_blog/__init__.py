@@ -11,26 +11,26 @@ basedir =os.path.abspath(os.path.dirname(__file__))
 
 # app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///'+ os.path.join(basedir,'data.sqlite')
 uri=os.environ.get('DATABASE_URL')
-if uri:
-    # Heroku 互換の古い形式なら正規化
-    if uri.startswith('postgres://'):
-        uri = uri.replace('postgres://', 'postgresql+psycopg2://', 1)
-    # SSL 必須なら追記（既にクエリがあれば & 、無ければ ?）
-    if 'sslmode=' not in uri:
-        uri = uri + ('?sslmode=require' if '?' not in uri else '&sslmode=require')
-    app.config['SQLALCHEMY_DATABASE_URI'] = uri
-else:
+# if uri:
+#     # Heroku 互換の古い形式なら正規化
+#     if uri.startswith('postgres://'):
+#         uri = uri.replace('postgres://', 'postgresql+psycopg2://', 1)
+#     # SSL 必須なら追記（既にクエリがあれば & 、無ければ ?）
+#     if 'sslmode=' not in uri:
+#         uri = uri + ('?sslmode=require' if '?' not in uri else '&sslmode=require')
+#     app.config['SQLALCHEMY_DATABASE_URI'] = uri
+# else:
     # ローカル開発用のフォールバック
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:ryota1231@localhost/postgres'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:ryota1231@localhost/postgres'
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///migrate_tmp.db'
 
 
-# if uri:
-#     if uri.startswith('postgres://'):
-#         uri=uri.replace('postgres://','postgresql://',1)
-#         app.config['SQLALCHEMY_DATABASE_URI']=uri
-# else:
-#     app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:ryota1231@localhost'
+if uri:
+    if uri.startswith('postgres://'):
+        uri=uri.replace('postgres://','postgresql://',1)
+        app.config['SQLALCHEMY_DATABASE_URI']=uri
+else:
+    app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:ryota1231@localhost'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 # app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_pre_ping": True}
@@ -58,7 +58,7 @@ login_manager.localize_callback=localize_callback
 #     cursor.execute("PRAGMA foreign_keys=ON")
 #     cursor.close()
 
-from company_blog.models import User, BlogPost, BlogCategory, Inquiry
+# from company_blog.models import User, BlogPost, BlogCategory, Inquiry
 
 from company_blog.main.views import main
 from company_blog.users.views import users
@@ -83,14 +83,14 @@ app.register_blueprint(error_pages)
 #         import traceback; print("COUNT FAILED:", e); traceback.print_exc()
 
 # --- 一時デバッグ（終わったら消す） ---
-import sqlalchemy as sa
-with app.app_context():
-    insp = sa.inspect(db.engine)
-    print("schemas:", insp.get_schema_names())
-    print("tables(public):", insp.get_table_names(schema="public"))
-    try:
-        cols = [c["name"] for c in insp.get_columns("blog_post", schema="public")]
-        print("columns blog_post:", cols)
-    except Exception as e:
-        print("columns blog_post FAILED:", e)
+# import sqlalchemy as sa
+# with app.app_context():
+#     insp = sa.inspect(db.engine)
+#     print("schemas:", insp.get_schema_names())
+#     print("tables(public):", insp.get_table_names(schema="public"))
+#     try:
+#         cols = [c["name"] for c in insp.get_columns("blog_post", schema="public")]
+#         print("columns blog_post:", cols)
+#     except Exception as e:
+#         print("columns blog_post FAILED:", e)
 # --- /デバッグ ---

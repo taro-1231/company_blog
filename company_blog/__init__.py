@@ -70,3 +70,21 @@ app.register_blueprint(error_pages)
 
 with app.app_context():
     print("tables:", db.metadata.tables.keys())
+
+from sqlalchemy import inspect
+from company_blog.models import BlogPost
+
+with app.app_context():
+    insp = inspect(db.engine)
+    print("columns blog_post:", [c["name"] for c in insp.get_columns("blog_post")])
+    try:
+        print("BlogPost count:", db.session.query(BlogPost).count())
+    except Exception as e:
+        import traceback; print("COUNT FAILED:", e); traceback.print_exc()
+
+import sqlalchemy as sa
+with app.app_context():
+    insp = sa.inspect(db.engine)
+    print("==== DB DEBUG ====")
+    print("DB URL:", db.engine.url)
+    print("tables:", insp.get_table_names(schema="public") or insp.get_table_names())

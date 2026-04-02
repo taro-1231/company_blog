@@ -33,7 +33,7 @@ class UpdateUserForm(FlaskForm):
     
     def validate_email(self,field):
         if User.query.filter(User.id != self.id).filter_by(email=field.data).first():
-            raise ValidationError('入力されたメールアドレスは既に登録されています。')
+            raise ValidationError('入力されたメールアドレスはすでに登録されています。')
         
     def validate_username(self,field):
         if User.query.filter(User.id != self.id).filter_by(username=field.data).first():
